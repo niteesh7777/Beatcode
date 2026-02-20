@@ -1,10 +1,11 @@
-import { Button } from "@/components/ui/button";
+import { UserButton } from "@clerk/nextjs";
+import { onboardUser } from "@/modules/auth/actions";
 
-export default function Home() {
+export default async function Home() {
+  await onboardUser();
   return (
-    <div className="flex flex-col justify-self-auto items-center h-screen w-full ">
-      <h1>BeatCode</h1>
-      <Button>solve</Button>
+    <div className="flex flex-col items-center justify-center h-screen w-full ">
+      <UserButton />
     </div>
   );
 }
