@@ -168,7 +168,7 @@ export default async function Home() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
               Everything you need to{" "}
-              <span className="text-amber-600 dark:text-amber-400">excel</span>
+              <span className="text-amber-500 dark:text-amber-400">excel</span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Our platform provides comprehensive tools and resources to help

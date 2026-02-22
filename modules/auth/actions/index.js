@@ -4,38 +4,46 @@ import prisma from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs/server";
 
 export async function onboardUser() {
+  const authUser = await currentUser();
+
+  if (!authUser) {
+    return { success: false, skipped: true };
+  }
+
+  const primaryEmail = authUser.emailAddresses?.find(
+    (email) => email?.id === authUser.primaryEmailAddressId,
+  )?.emailAddress;
+
+  if (
+    !primaryEmail ||
+    typeof primaryEmail !== "string" ||
+    primaryEmail.trim() === ""
+  ) {
+    return { success: false, error: "No valid email address found" };
+  }
+
+  const cleanEmail = primaryEmail.trim();
+
   try {
-    const authUser = await currentUser();
-    if (!authUser) {
-      return { success: false, skipped: true, reason: "UNAUTHENTICATED" };
-    }
-
-    const primaryEmail =
-      authUser.emailAddresses.find(
-        (email) => email.id === authUser.primaryEmailAddressId,
-      )?.emailAddress || "";
-
-    const user = await prisma.user.upsert({
+    return await prisma.user.upsert({
       where: { clerkId: authUser.id },
       update: {
-        firstName: authUser.firstName || null,
-        lastName: authUser.lastName || null,
-        imageUrl: authUser.imageUrl || null,
-        email: primaryEmail,
+        firstName: authUser.firstName ?? null,
+        lastName: authUser.lastName ?? null,
+        imageUrl: authUser.imageUrl ?? null,
+        email: cleanEmail,
       },
       create: {
         clerkId: authUser.id,
-        firstName: authUser.firstName || null,
-        lastName: authUser.lastName || null,
-        imageUrl: authUser.imageUrl || null,
-        email: primaryEmail,
+        email: cleanEmail,
+        firstName: authUser.firstName ?? null,
+        lastName: authUser.lastName ?? null,
+        imageUrl: authUser.imageUrl ?? null,
       },
     });
-
-    return { success: true, user };
   } catch (error) {
-    console.error("Onboarding error:", error);
-    return { success: false, error: "Failed to onboard user" };
+    console.error("Database error during user upsert:", error);
+    return { success: false, error: "Database operation failed" };
   }
 }
 
@@ -43,7 +51,8 @@ export async function getUserRole() {
   try {
     const user = await requireDbUser();
     return { success: true, role: user.role };
-  } catch {
+  } catch (error) {
+    console.error("Error fetching user role:", error);
     return { success: false, error: "Failed to fetch role" };
   }
 }

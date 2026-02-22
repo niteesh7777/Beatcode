@@ -15,7 +15,7 @@ import { UserRole } from "@prisma/client";
 const Navbar = ({ userRole }) => {
   return (
     <nav className="fixed left-1/2 top-2 z-50 w-full max-w-5xl -translate-x-1/2 px-2 sm:top-4 sm:px-4">
-      <div className="rounded-xl border border-white/20 bg-white/10 shadow-lg shadow-black/5 backdrop-blur-md transition-all duration-200 hover:bg-white/15 sm:rounded-2xl dark:border-white/10 dark:bg-black/10 dark:shadow-black/20 dark:hover:bg-black/15">
+      <div className="rounded-xl border border-gray-400/20 bg-white/10 shadow-lg shadow-black/5 backdrop-blur-md transition-all duration-200 hover:bg-white/15 sm:rounded-2xl dark:border-white/10 dark:bg-black/10 dark:shadow-black/20 dark:hover:bg-black/15">
         <div className="pointer-events-none absolute inset-0 " />
 
         <div className="flex items-center justify-between px-3 py-3 sm:px-6 sm:py-4">
@@ -27,7 +27,7 @@ const Navbar = ({ userRole }) => {
               height={36}
               className="h-8 w-8 rounded-md dark:bg-gray-100 sm:h-9 sm:w-9"
             />
-            <h1 className="truncate text-lg font-bold text-orange-500 sm:text-xl">
+            <h1 className="truncate text-lg font-bold text-amber-500 dark:text-amber-400 sm:text-xl">
               Beat
               <span className="text-foreground ml-1">Code</span>
             </h1>
@@ -62,7 +62,7 @@ const Navbar = ({ userRole }) => {
                   <Button
                     variant={"outline"}
                     size={"sm"}
-                    className="border-white/40 bg-white/45 px-2 backdrop-blur-sm hover:bg-white/65 sm:px-3 dark:border-white/20 dark:bg-white/10 dark:hover:bg-white/15"
+                    className="border-gray-400/20 bg-white/35 px-2 backdrop-blur-sm hover:bg-white/65 sm:px-3 dark:border-white/20 dark:bg-white/10 dark:hover:bg-white/15"
                   >
                     <span className="sm:hidden">Create</span>
                     <span className="hidden sm:inline">Create Problem</span>
